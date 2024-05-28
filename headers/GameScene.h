@@ -23,6 +23,8 @@ private:
     sf::Font font;
     void spawnWord();
     void handleTyping(const std::string& typed);
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 
 

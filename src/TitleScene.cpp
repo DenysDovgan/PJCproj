@@ -8,7 +8,7 @@
 #include "../headers/GameScene.h"
 
 TitleScene::TitleScene(GameEngine& engine) : Scene(engine) {
-    font.loadFromFile("assets/fonts/arial.ttf");
+    font.loadFromFile("../assets/fonts/arial.ttf");
     titleText.setFont(font);
     titleText.setString("Typing Game\nPress Enter to Start");
     titleText.setCharacterSize(24);

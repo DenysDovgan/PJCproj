@@ -7,7 +7,7 @@
 #include "../headers/GameOverScene.h"
 
 GameScene::GameScene(GameEngine& engine) : Scene(engine) {
-    font.loadFromFile("assets/fonts/arial.ttf");
+    font.loadFromFile("../assets/fonts/arial.ttf");
     // Initialize words, load initial words from file, etc.
 }
 
@@ -28,7 +28,7 @@ void GameScene::onUpdate(sf::Time elapsedTime) {
 void GameScene::handleEvent(const sf::Event& event) {
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode < 128) {
-            handleTyping(static_cast<char>(event.text.unicode));
+            handleTyping(std::string(1, static_cast<char>(event.text.unicode))); // Correctly pass string
         }
     }
 }

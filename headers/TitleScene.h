@@ -19,6 +19,8 @@ public:
 private:
     sf::Text titleText;
     sf::Font font;
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 
 
