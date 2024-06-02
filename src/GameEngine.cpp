@@ -6,7 +6,7 @@
 #include "../headers/TitleScene.h"
 
 
-GameEngine::GameEngine() : window(sf::VideoMode(1920, 1080), "Typing Game") {
+GameEngine::GameEngine() : window(sf::VideoMode(1920, 1080), "Monki Typer") {
     settings.loadFromFile("assets/settings.json"); // Example settings file
     pushScene(std::make_unique<TitleScene>(*this));
 }

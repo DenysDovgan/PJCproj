@@ -8,6 +8,7 @@
 
 #include "Scene.h"
 #include "Settings.h"
+#include "Button.h"
 
 class TitleScene : public Scene {
 public:
@@ -25,8 +26,16 @@ private:
     sf::Texture texture;
     sf::Sprite monkeyImage;
 
+    sf::RectangleShape menuBackground;
+
+    sf::Texture backgroundTexture;
+    sf::Sprite backgroundImage;
+
+    Button increaseSpeedButton;
+    Button decreaseSpeedButton;
+
     sf::Text speedText;
-    WordSpeed selectedSpeed;
+    WordSpeed wordSpeed;
 
 
     auto updateTextSpeed() -> void;

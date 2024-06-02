@@ -9,10 +9,11 @@
 #include <vector>
 #include "Scene.h"
 #include "Word.h"
+#include "Settings.h"
 
 class GameScene : public Scene {
 public:
-    GameScene(GameEngine& engine);
+    GameScene(GameEngine& engine, WordSpeed speed);
     virtual ~GameScene();
 
     auto onUpdate(sf::Time elapsedTime) -> void override;
@@ -21,7 +22,9 @@ public:
 private:
     std::vector<Word> words;
     sf::Font font;
-    auto spawnWord(auto word) -> void;
+    WordSpeed wordSpeed;
+
+    auto spawnWord() -> void;
     auto handleTyping(const std::string& typed) -> void;
     auto loadWordsFromFile(const std::string& wordListLocation) -> void;
 

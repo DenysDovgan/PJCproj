@@ -8,7 +8,7 @@
 #include <fstream>
 #include <stdexcept>
 
-GameScene::GameScene(GameEngine& engine) : Scene(engine) {
+GameScene::GameScene(GameEngine& engine, WordSpeed speed) : Scene(engine), wordSpeed(speed) {
     font.loadFromFile("../assets/fonts/arial.ttf");
     loadWordsFromFile("../assets/words/words.txt");
 }
@@ -24,7 +24,7 @@ auto GameScene::onUpdate(sf::Time elapsedTime) -> void {
         }
     }
 
-    //spawnWord();
+    spawnWord();
 }
 
 auto GameScene::handleEvent(const sf::Event& event) -> void {
@@ -35,7 +35,7 @@ auto GameScene::handleEvent(const sf::Event& event) -> void {
     }
 }
 
-auto GameScene::spawnWord(auto word) -> void {
+auto GameScene::spawnWord() -> void {
     // Add logic to spawn a new word at random intervals
 }
 
@@ -55,8 +55,7 @@ auto GameScene::loadWordsFromFile(const std::string& wordListLocation) -> void {
     std::string line;
     while (std::getline(file, line)) {
         if (!line.empty()) {
-            Word word(line, font, 3);
-            words.push_back(word);
+            words.emplace_back(line, font, wordSpeed);
         }
     }
 }

@@ -44,6 +44,8 @@ add_executable(
         headers/GameEvent.h
         src/Settings.cpp
         headers/Settings.h
+        src/Button.cpp
+        headers/Button.h
 )
 
 target_link_libraries(PJCproj sfml-graphics fmt nlohmann_json::nlohmann_json)
