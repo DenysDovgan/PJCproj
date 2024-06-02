@@ -10,21 +10,29 @@
 #include <string>
 #include <unordered_map>
 
+
+enum class WordSpeed {
+    SLOW = 50,
+    MEDIUM = 100,
+    FAST = 150,
+    IMPOSABLE = 200
+};
+
 class Settings {
 public:
     Settings();
-    void loadFromFile(const std::string& filename);
-    void saveToFile(const std::string& filename) const;
+    auto loadFromFile(const std::string& filename) -> void;
+    auto saveToFile(const std::string& filename) const -> void;
 
     // Getters and setters for various settings
     sf::Font& getFont();
-    void setFont(const sf::Font& font);
+    auto setFont(const sf::Font& font) -> void;
 
-    float getWordSpeed() const;
-    void setWordSpeed(float speed);
+    auto getWordSpeed() const -> float;
+    auto setWordSpeed(float speed) -> void;
 
-    unsigned int getWordSize() const;
-    void setWordSize(unsigned int size);
+    auto getWordSize() const -> unsigned int;
+    auto setWordSize(unsigned int size) -> void;
 
 private:
     sf::Font font;

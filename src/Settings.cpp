@@ -12,7 +12,7 @@ Settings::Settings() : wordSpeed(100.0f), wordSize(24) {
     font.loadFromFile("assets/fonts/arial.ttf");
 }
 
-void Settings::loadFromFile(const std::string& filename) {
+auto Settings::loadFromFile(const std::string& filename) -> void {
     std::ifstream file(filename);
     if (file.is_open()) {
         json j;
@@ -23,7 +23,7 @@ void Settings::loadFromFile(const std::string& filename) {
     }
 }
 
-void Settings::saveToFile(const std::string& filename) const {
+auto Settings::saveToFile(const std::string& filename) const -> void {
     std::ofstream file(filename);
     if (file.is_open()) {
         json j;
@@ -34,26 +34,26 @@ void Settings::saveToFile(const std::string& filename) const {
     }
 }
 
-sf::Font& Settings::getFont() {
+auto Settings::getFont() -> sf::Font&{
     return font;
 }
 
-void Settings::setFont(const sf::Font& newFont) {
+auto Settings::setFont(const sf::Font& newFont) -> void {
     font = newFont;
 }
 
-float Settings::getWordSpeed() const {
+auto Settings::getWordSpeed() const -> float {
     return wordSpeed;
 }
 
-void Settings::setWordSpeed(float speed) {
+auto Settings::setWordSpeed(float speed) -> void {
     wordSpeed = speed;
 }
 
-unsigned int Settings::getWordSize() const {
+auto Settings::getWordSize() const -> unsigned int {
     return wordSize;
 }
 
-void Settings::setWordSize(unsigned int size) {
+auto Settings::setWordSize(unsigned int size) -> void {
     wordSize = size;
 }

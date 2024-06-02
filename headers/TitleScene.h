@@ -7,20 +7,30 @@
 
 
 #include "Scene.h"
+#include "Settings.h"
 
 class TitleScene : public Scene {
 public:
     TitleScene(GameEngine& engine);
     virtual ~TitleScene();
 
-    void onUpdate(sf::Time elapsedTime) override;
-    void handleEvent(const sf::Event& event) override;
+    auto onUpdate(sf::Time elapsedTime) -> void override;
+    auto handleEvent(const sf::Event& event) -> void override;
 
 private:
     sf::Text titleText;
+    sf::Text startGameText;
     sf::Font font;
 
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    sf::Texture texture;
+    sf::Sprite monkeyImage;
+
+    sf::Text speedText;
+    WordSpeed selectedSpeed;
+
+
+    auto updateTextSpeed() -> void;
+    auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 };
 
 

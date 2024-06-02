@@ -12,15 +12,15 @@ Word::Word(const std::string& text, const sf::Font& font, float speed) : speed(s
     wordText.setPosition(800, rand() % 600); // Random starting position
 }
 
-void Word::update(sf::Time elapsedTime) {
+auto Word::update(sf::Time elapsedTime) -> void {
     wordText.move(-speed * elapsedTime.asSeconds(), 0);
 }
 
-bool Word::isOffScreen() const {
+auto Word::isOffScreen() const -> bool {
     return wordText.getPosition().x + wordText.getGlobalBounds().width < 0;
 }
 
-bool Word::matchTyping(const std::string& typed) {
+auto Word::matchTyping(const std::string& typed) -> bool {
     if (wordText.getString().substring(0, typed.size()) == typed) {
         typedText = typed;
         return typed.size() == wordText.getString().getSize();
@@ -28,10 +28,11 @@ bool Word::matchTyping(const std::string& typed) {
     return false;
 }
 
-void Word::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+auto Word::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     sf::Text typedHighlight = wordText;
     typedHighlight.setString(typedText);
     typedHighlight.setFillColor(sf::Color::Green);
     target.draw(typedHighlight, states);
     target.draw(wordText, states);
 }
+

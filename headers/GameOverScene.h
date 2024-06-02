@@ -13,14 +13,14 @@ public:
     GameOverScene(GameEngine& engine);
     virtual ~GameOverScene();
 
-    void onUpdate(sf::Time elapsedTime) override;
-    void handleEvent(const sf::Event& event) override;
+    auto onUpdate(sf::Time elapsedTime) -> void override;
+    auto handleEvent(const sf::Event& event) -> void override;
 
 private:
     sf::Text gameOverText;
     sf::Font font;
 
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 };
 
 

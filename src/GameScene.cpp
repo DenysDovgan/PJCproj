@@ -5,15 +5,17 @@
 #include "../headers/GameScene.h"
 #include "../headers/GameEngine.h"
 #include "../headers/GameOverScene.h"
+#include <fstream>
+#include <stdexcept>
 
 GameScene::GameScene(GameEngine& engine) : Scene(engine) {
     font.loadFromFile("../assets/fonts/arial.ttf");
-    // Initialize words, load initial words from file, etc.
+    loadWordsFromFile("../assets/words/words.txt");
 }
 
 GameScene::~GameScene() {}
 
-void GameScene::onUpdate(sf::Time elapsedTime) {
+auto GameScene::onUpdate(sf::Time elapsedTime) -> void {
     for (auto& word : words) {
         word.update(elapsedTime);
         if (word.isOffScreen()) {
@@ -21,11 +23,11 @@ void GameScene::onUpdate(sf::Time elapsedTime) {
             return;
         }
     }
-    // Spawn new words periodically
-    spawnWord();
+
+    //spawnWord();
 }
 
-void GameScene::handleEvent(const sf::Event& event) {
+auto GameScene::handleEvent(const sf::Event& event) -> void {
     if (event.type == sf::Event::TextEntered) {
         if (event.text.unicode < 128) {
             handleTyping(std::string(1, static_cast<char>(event.text.unicode))); // Correctly pass string
@@ -33,17 +35,29 @@ void GameScene::handleEvent(const sf::Event& event) {
     }
 }
 
-void GameScene::spawnWord() {
+auto GameScene::spawnWord(auto word) -> void {
     // Add logic to spawn a new word at random intervals
 }
 
-void GameScene::handleTyping(const std::string& typed) {
+auto GameScene::handleTyping(const std::string& typed) -> void {
     // Handle typing, remove words from the list if fully typed
 }
 
-void GameScene::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+auto GameScene::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     for (const auto& word : words) {
         target.draw(word, states);
+    }
+}
+
+auto GameScene::loadWordsFromFile(const std::string& wordListLocation) -> void {
+    std::ifstream file(wordListLocation);
+
+    std::string line;
+    while (std::getline(file, line)) {
+        if (!line.empty()) {
+            Word word(line, font, 3);
+            words.push_back(word);
+        }
     }
 }
 

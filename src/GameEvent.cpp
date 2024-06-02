@@ -6,7 +6,7 @@
 
 GameEvent::GameEvent(EventType type, const std::string& message) : type(type), message(message) {}
 
-GameEvent::EventType GameEvent::getType() const {
+auto GameEvent::getType() const -> GameEvent::EventType {
     return type;
 }
 

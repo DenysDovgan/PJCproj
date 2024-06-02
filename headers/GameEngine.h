@@ -16,22 +16,22 @@ public:
     GameEngine();
     ~GameEngine();
 
-    void run();
+    auto run() -> void;
 
-    void changeScene(std::unique_ptr<Scene> scene);
-    void pushScene(std::unique_ptr<Scene> scene);
-    void popScene();
+    auto changeScene(std::unique_ptr<Scene> scene) -> void;
+    auto pushScene(std::unique_ptr<Scene> scene) -> void;
+    auto popScene() -> void;
 
-    Settings& getSettings();
+    auto getSettings() -> Settings&;
 
 private:
     sf::RenderWindow window;
     std::stack<std::unique_ptr<Scene>> scenes;
     Settings settings;
 
-    void processEvents();
-    void update(sf::Time elapsedTime);
-    void render();
+    auto processEvents() -> void;
+    auto update(sf::Time elapsedTime) -> void;
+    auto render() -> void;
 };
 
 

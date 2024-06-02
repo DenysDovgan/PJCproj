@@ -17,16 +17,16 @@ GameOverScene::GameOverScene(GameEngine& engine) : Scene(engine) {
 
 GameOverScene::~GameOverScene() {}
 
-void GameOverScene::onUpdate(sf::Time elapsedTime) {
+auto GameOverScene::onUpdate(sf::Time elapsedTime) -> void {
     // Update logic here
 }
 
-void GameOverScene::handleEvent(const sf::Event& event) {
+auto GameOverScene::handleEvent(const sf::Event& event) -> void {
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
         gameEngine.changeScene(std::make_unique<TitleScene>(gameEngine));
     }
 }
 
-void GameOverScene::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+auto GameOverScene::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(gameOverText, states);
 }

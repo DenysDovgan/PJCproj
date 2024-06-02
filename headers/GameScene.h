@@ -15,16 +15,18 @@ public:
     GameScene(GameEngine& engine);
     virtual ~GameScene();
 
-    void onUpdate(sf::Time elapsedTime) override;
-    void handleEvent(const sf::Event& event) override;
+    auto onUpdate(sf::Time elapsedTime) -> void override;
+    auto handleEvent(const sf::Event& event) -> void override;
 
 private:
     std::vector<Word> words;
     sf::Font font;
-    void spawnWord();
-    void handleTyping(const std::string& typed);
+    auto spawnWord(auto word) -> void;
+    auto handleTyping(const std::string& typed) -> void;
+    auto loadWordsFromFile(const std::string& wordListLocation) -> void;
 
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
+
 };
 
 

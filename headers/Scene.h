@@ -15,8 +15,8 @@ public:
     Scene(GameEngine& engine);
     virtual ~Scene();
 
-    virtual void onUpdate(sf::Time elapsedTime) = 0;
-    virtual void handleEvent(const sf::Event& event) = 0;
+    virtual auto onUpdate(sf::Time elapsedTime) -> void = 0;
+    virtual auto handleEvent(const sf::Event& event) -> void = 0;
 
 protected:
     GameEngine& gameEngine;
