@@ -15,7 +15,7 @@ enum class WordSpeed {
     SLOW = 50,
     MEDIUM = 100,
     FAST = 150,
-    IMPOSABLE = 200
+    IMPOSSIBLE = 200
 };
 
 class Settings {
@@ -28,15 +28,9 @@ public:
     sf::Font& getFont();
     auto setFont(const sf::Font& font) -> void;
 
-    auto getWordSpeed() const -> float;
-    auto setWordSpeed(float speed) -> void;
-
-    auto getWordSize() const -> unsigned int;
-    auto setWordSize(unsigned int size) -> void;
 
 private:
     sf::Font font;
-    float wordSpeed;
     unsigned int wordSize;
 };
 

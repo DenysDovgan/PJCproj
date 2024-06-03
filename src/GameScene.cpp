@@ -4,6 +4,7 @@
 
 #include "../headers/GameScene.h"
 #include "../headers/GameEngine.h"
+#include "../headers/Word.h"
 #include "../headers/GameOverScene.h"
 #include <fstream>
 #include <stdexcept>
@@ -16,15 +17,7 @@ GameScene::GameScene(GameEngine& engine, WordSpeed speed) : Scene(engine), wordS
 GameScene::~GameScene() {}
 
 auto GameScene::onUpdate(sf::Time elapsedTime) -> void {
-    for (auto& word : words) {
-        word.update(elapsedTime);
-        if (word.isOffScreen()) {
-            gameEngine.changeScene(std::make_unique<GameOverScene>(gameEngine));
-            return;
-        }
-    }
 
-    spawnWord();
 }
 
 auto GameScene::handleEvent(const sf::Event& event) -> void {
@@ -36,7 +29,7 @@ auto GameScene::handleEvent(const sf::Event& event) -> void {
 }
 
 auto GameScene::spawnWord() -> void {
-    // Add logic to spawn a new word at random intervals
+
 }
 
 auto GameScene::handleTyping(const std::string& typed) -> void {
@@ -50,13 +43,6 @@ auto GameScene::draw(sf::RenderTarget& target, sf::RenderStates states) const ->
 }
 
 auto GameScene::loadWordsFromFile(const std::string& wordListLocation) -> void {
-    std::ifstream file(wordListLocation);
 
-    std::string line;
-    while (std::getline(file, line)) {
-        if (!line.empty()) {
-            words.emplace_back(line, font, wordSpeed);
-        }
-    }
 }
 

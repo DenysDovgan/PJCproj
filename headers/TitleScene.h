@@ -19,17 +19,17 @@ public:
     auto handleEvent(const sf::Event& event) -> void override;
 
 private:
+    sf::Texture backgroundTexture;
+    sf::Sprite backgroundImage;
+
+    Button startGameButton;
+
     sf::Text titleText;
     sf::Text startGameText;
     sf::Font font;
-
-    sf::Texture texture;
-    sf::Sprite monkeyImage;
+    sf::Font buttonFont;
 
     sf::RectangleShape menuBackground;
-
-    sf::Texture backgroundTexture;
-    sf::Sprite backgroundImage;
 
     Button increaseSpeedButton;
     Button decreaseSpeedButton;

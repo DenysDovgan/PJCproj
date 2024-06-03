@@ -48,13 +48,17 @@ auto GameEngine::update(sf::Time elapsedTime) -> void {
     scenes.top()->onUpdate(elapsedTime);
 }
 
+auto GameEngine::getSettings() -> Settings& {
+    return settings;
+}
+
+auto GameEngine::getWindow() -> sf::RenderWindow& {
+    return window;
+}
+
 auto GameEngine::render() -> void {
     window.clear();
     window.draw(*scenes.top());
     window.display();
-}
-
-auto GameEngine::getSettings() -> Settings& {
-    return settings;
 }
 

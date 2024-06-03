@@ -10,15 +10,16 @@
 
 class Word : public sf::Drawable {
 public:
-    Word(const std::string& text, const sf::Font& font, WordSpeed speed);
-    auto update(sf::Time elapsedTime) -> void;
+    Word(const std::string& text, const sf::Font& font, WordSpeed speed, sf::Vector2f wordPos);
+
+    auto updatePosition() -> void;
     auto isOffScreen() const -> bool;
-    auto matchTyping(const std::string& typed) -> bool;
 
 private:
+    sf::Vector2f wordPosition;
+
     sf::Text wordText;
-    sf::Vector2f speed;
-    std::string typedText;
+    WordSpeed speed;
 
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 };

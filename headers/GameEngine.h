@@ -24,6 +24,7 @@ public:
 
     auto getSettings() -> Settings&;
 
+    auto getWindow() -> sf::RenderWindow&;
 private:
     sf::RenderWindow window;
     std::stack<std::unique_ptr<Scene>> scenes;

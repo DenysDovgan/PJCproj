@@ -14,16 +14,11 @@ public:
     auto handleEvent(const sf::Event& event, const sf::RenderWindow& window) -> void;
     auto isClicked() const -> bool;
 
-    auto setString(const std::string& string) -> void {
-        buttonText.setString(string);
-    }
-    auto setFont(sf::Font& font) -> void {
-        buttonText.setFont(font);
-    }
-    auto setPosition(sf::Vector2f pos) -> void {
-        buttonShape.setPosition(pos);
-        buttonText.setPosition(pos /*- sf::Vector2f(10,10)*/ );
-    }
+    auto setCharacterSize(const int& characterSize) -> void;
+    auto setFont(sf::Font& font) -> void;
+    auto setPosition(sf::Vector2f pos) -> void;
+    auto setShapeSize(sf::Vector2f size) -> void;
+    auto setString(const std::string& str) -> void;
 
 
 private:

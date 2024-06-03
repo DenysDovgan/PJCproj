@@ -23,7 +23,7 @@ TitleScene::TitleScene(GameEngine& engine) : Scene(engine) {
     backgroundImage.setPosition(0, 0);
 
     // Game title
-    font.loadFromFile("../assets/fonts/arial.ttf");
+    font.loadFromFile("../assets/fonts/Danfo.ttf");
 
     titleText.setFont(font);
     titleText.setString("MONKI TYPER");
@@ -31,18 +31,32 @@ TitleScene::TitleScene(GameEngine& engine) : Scene(engine) {
     titleText.setFillColor(sf::Color::White);
     titleText.setPosition(110 , 200);
 
-    // Start Game Text
-    startGameText.setFont(font);
-    startGameText.setString("Press Enter to start the game");
-    startGameText.setCharacterSize(42);
-    startGameText.setFillColor(sf::Color::White);
-    startGameText.setPosition(600 , 400);
+    // Button Font
+    buttonFont.loadFromFile("../assets/fonts/arial.ttf");
 
+    // NewGame button
+    startGameButton.setFont(font);
+    startGameButton.setCharacterSize(30);
+    startGameButton.setString("New Game");
+    //startGameButton.setShapeSize(sf::Vector2f(30,30));
+    startGameButton.setPosition(sf::Vector2f(menuBackground.getPosition().x + 30,300));
+
+    // Increase speed button
+    increaseSpeedButton.setFont(buttonFont);
+    increaseSpeedButton.setCharacterSize(24);
     increaseSpeedButton.setString("+");
-    increaseSpeedButton.setPosition(sf::Vector2f(400,500));
-    increaseSpeedButton.setFont(font);
+    increaseSpeedButton.setShapeSize(sf::Vector2f(30,30));
+    increaseSpeedButton.setPosition(sf::Vector2f(320,500));
 
-    // Word speed option
+    // Decrease speed button
+    decreaseSpeedButton.setFont(buttonFont);
+    decreaseSpeedButton.setCharacterSize(24);
+    decreaseSpeedButton.setString("-");
+    decreaseSpeedButton.setShapeSize(sf::Vector2f(30,30));
+    decreaseSpeedButton.setPosition(sf::Vector2f(370,500));
+
+
+    // Word speed text
     speedText.setFont(font);
     speedText.setCharacterSize(24);
     speedText.setFillColor(sf::Color::White);
@@ -57,16 +71,20 @@ auto TitleScene::onUpdate(sf::Time elapsedTime) -> void {};
 
 
 auto TitleScene::handleEvent(const sf::Event& event) -> void {
-    if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Enter) {
-            gameEngine.changeScene(std::make_unique<GameScene>(gameEngine, wordSpeed));
-        } else if (event.key.code == sf::Keyboard::Down) {
-            wordSpeed = static_cast<WordSpeed>(std::max(static_cast<int>(wordSpeed) - 50, 50));
-            updateTextSpeed();
-        } else if (event.key.code == sf::Keyboard::Up) {
-            wordSpeed = static_cast<WordSpeed>(std::min(static_cast<int>(wordSpeed) + 50, 200));
-            updateTextSpeed();
-        }
+    increaseSpeedButton.handleEvent(event, gameEngine.getWindow());
+    decreaseSpeedButton.handleEvent(event, gameEngine.getWindow());
+    startGameButton.handleEvent(event, gameEngine.getWindow());
+
+    if (startGameButton.isClicked()) {
+        gameEngine.changeScene(std::make_unique<GameScene>(gameEngine, wordSpeed));
+    }
+    if (decreaseSpeedButton.isClicked()) {
+        wordSpeed = static_cast<WordSpeed>(std::max(static_cast<int>(wordSpeed) - 50, 50));
+        updateTextSpeed();
+    }
+    if (increaseSpeedButton.isClicked()) {
+        wordSpeed = static_cast<WordSpeed>(std::min(static_cast<int>(wordSpeed) + 50, 200));
+        updateTextSpeed();
     }
 }
 
@@ -76,7 +94,7 @@ auto TitleScene::updateTextSpeed() -> void {
         case WordSpeed::SLOW: speedString = "Speed: Slow"; break;
         case WordSpeed::MEDIUM: speedString = "Speed: Medium"; break;
         case WordSpeed::FAST: speedString = "Speed: Fast"; break;
-        case WordSpeed::IMPOSABLE: speedString = "Speed: Very Fast"; break;
+        case WordSpeed::IMPOSSIBLE: speedString = "Speed: Impossible"; break;
     }
     speedText.setString(speedString);
 }
@@ -84,8 +102,13 @@ auto TitleScene::updateTextSpeed() -> void {
 auto TitleScene::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(backgroundImage, states);
     target.draw(menuBackground, states);
-    target.draw(increaseSpeedButton, states);
+
     target.draw(titleText, states);
+
+    target.draw(startGameButton, states);
+    target.draw(increaseSpeedButton, states);
+    target.draw(decreaseSpeedButton, states);
+
     target.draw(startGameText, states);
     target.draw(speedText, states);
 }
