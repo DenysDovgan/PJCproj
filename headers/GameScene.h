@@ -8,26 +8,33 @@
 
 #include <vector>
 #include "Scene.h"
-#include "Word.h"
 #include "Settings.h"
 
 class GameScene : public Scene {
 public:
-    GameScene(GameEngine& engine, WordSpeed speed);
+    GameScene(GameEngine& engine, WordSpeed speed, const std::string& fileLoc);
     virtual ~GameScene();
 
     auto onUpdate(sf::Time elapsedTime) -> void override;
     auto handleEvent(const sf::Event& event) -> void override;
 
 private:
-    std::vector<Word> words;
+    std::string textFileLocation;
     sf::Font font;
     WordSpeed wordSpeed;
+    sf::Time lastWordSpawn;
+    std::vector<sf::Text> words;
 
-    auto spawnWord() -> void;
-    auto handleTyping(const std::string& typed) -> void;
-    auto loadWordsFromFile(const std::string& wordListLocation) -> void;
+    std::vector<char> enteredChars;
 
+    sf::RectangleShape enteredCharsBackground;
+    sf::Text enteredCharsDisplay;
+    sf::Text enteredCharsDisplayTitle;
+
+    auto spawnWord(const std::string& word) -> void;
+    auto updateWordPositions(sf::Time elapsedTime) -> void;
+    auto loadRandomWordFromFile() -> void;
+    auto checkEnteredWord() -> void;
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 
 };

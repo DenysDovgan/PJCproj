@@ -76,7 +76,7 @@ auto TitleScene::handleEvent(const sf::Event& event) -> void {
     startGameButton.handleEvent(event, gameEngine.getWindow());
 
     if (startGameButton.isClicked()) {
-        gameEngine.changeScene(std::make_unique<GameScene>(gameEngine, wordSpeed));
+        gameEngine.changeScene(std::make_unique<GameScene>(gameEngine, wordSpeed, "../assets/wordlist.txt"));
     }
     if (decreaseSpeedButton.isClicked()) {
         wordSpeed = static_cast<WordSpeed>(std::max(static_cast<int>(wordSpeed) - 50, 50));

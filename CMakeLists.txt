@@ -38,8 +38,6 @@ add_executable(
         headers/GameScene.h
         src/GameOverScene.cpp
         headers/GameOverScene.h
-        src/Word.cpp
-        headers/Word.h
         src/GameEvent.cpp
         headers/GameEvent.h
         src/Settings.cpp
