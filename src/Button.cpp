@@ -10,6 +10,7 @@ Button::Button() : clicked(false) {
 
     buttonShape.setFillColor(sf::Color::White);
 }
+// Setters
 auto Button::setFont(sf::Font &font) -> void {
     buttonText.setFont(font);
 }
@@ -36,6 +37,12 @@ auto Button::setShapeSize(sf::Vector2f size) -> void {
     buttonText.setPosition(buttonShape.getPosition().x + buttonShape.getSize().x / 2.0f,
                            buttonShape.getPosition().y + buttonShape.getSize().y / 2.0f);
 }
+
+// Setters
+auto Button::getSize() -> sf::Vector2f {
+    return buttonShape.getSize();
+}
+
 
 auto Button::handleEvent(const sf::Event &event, const sf::RenderWindow &window) -> void {
     if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {

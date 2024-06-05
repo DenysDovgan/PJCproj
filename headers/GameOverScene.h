@@ -7,6 +7,7 @@
 
 
 #include "Scene.h"
+#include "Button.h"
 
 class GameOverScene : public Scene {
 public:
@@ -17,8 +18,18 @@ public:
     auto handleEvent(const sf::Event& event) -> void override;
 
 private:
-    sf::Text gameOverText;
     sf::Font font;
+    sf::Font buttonFont;
+
+    sf::Texture gameOverBackgroundTexture;
+    sf::Sprite gameOverBackgroundImage;
+
+    Button returnToTitleButton;
+    Button exitGameButton;
+
+    sf::Text gameOverText;
+
+    sf::RectangleShape gameOverMenuBackground;
 
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 };

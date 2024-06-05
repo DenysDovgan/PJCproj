@@ -20,6 +20,8 @@ public:
     auto setShapeSize(sf::Vector2f size) -> void;
     auto setString(const std::string& str) -> void;
 
+    auto getSize() -> sf::Vector2f;
+
 
 private:
     sf::Text buttonText;

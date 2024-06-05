@@ -27,14 +27,20 @@ private:
 
     std::vector<char> enteredChars;
 
-    sf::RectangleShape enteredCharsBackground;
+    sf::RectangleShape gameSceneMenuBackground;
     sf::Text enteredCharsDisplay;
     sf::Text enteredCharsDisplayTitle;
+
+    sf::Text livesLeftDisplayTitle;
+    sf::Text livesLeftDisplay;
+
+    int possibleWordsOffScreenCount;
 
     auto spawnWord(const std::string& word) -> void;
     auto updateWordPositions(sf::Time elapsedTime) -> void;
     auto loadRandomWordFromFile() -> void;
     auto checkEnteredWord() -> void;
+    auto checkWordOffScreen() -> void;
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 
 };
