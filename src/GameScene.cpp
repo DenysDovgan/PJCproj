@@ -7,12 +7,14 @@
 #include "../headers/GameOverScene.h"
 #include <random>
 #include <fstream>
+#include <utility>
 
-GameScene::GameScene(GameEngine& engine, WordSpeed speed, const std::string& fileLoc)
-                    : Scene(engine), wordSpeed(speed), textFileLocation(fileLoc) {
-    font.loadFromFile("../assets/fonts/arial.ttf");
+GameScene::GameScene(GameEngine& engine, WordSpeed speed, std::string  fileLoc, const sf::Font& font)
+                    : Scene(engine, settings), wordSpeed(speed), textFileLocation(std::move(fileLoc)), font(font) {
 
     possibleWordsOffScreenCount = 9;
+
+    score = 0;
 
     enteredCharsDisplay.setFont(font);
     enteredCharsDisplay.setCharacterSize(24);
@@ -34,6 +36,17 @@ GameScene::GameScene(GameEngine& engine, WordSpeed speed, const std::string& fil
     livesLeftDisplayTitle.setString("Lives left:");
     livesLeftDisplayTitle.setPosition(
             sf::Vector2f(livesLeftDisplay.getPosition().x - 145, livesLeftDisplay.getPosition().y));
+
+    scoreDisplay.setFont(font);
+    scoreDisplay.setCharacterSize(24);
+    scoreDisplay.setString(std::to_string(score));
+    scoreDisplay.setPosition(sf::Vector2f(gameEngine.getWindow().getSize().x - 1220, 10));
+
+    scoreDisplayTitle.setFont(font);
+    scoreDisplayTitle.setCharacterSize(24);
+    scoreDisplayTitle.setString("Score:");
+    scoreDisplayTitle.setPosition(
+            sf::Vector2f(scoreDisplay.getPosition().x - 145, scoreDisplay.getPosition().y));
 
     gameSceneMenuBackground.setSize(sf::Vector2f(gameEngine.getWindow().getSize().x, 50.f));
     gameSceneMenuBackground.setPosition(sf::Vector2f(0, 0));
@@ -89,8 +102,8 @@ auto GameScene::updateWordPositions(sf::Time elapsedTime) -> void {
     auto speedFactor = static_cast<float>(wordSpeed);
     lastWordSpawn += elapsedTime;
 
-    for (auto it = words.begin(); it != words.end(); ++it) {
-        it->move(speedFactor * elapsedTime.asSeconds(), 0);
+    for (auto &word : words) {
+        word.move(speedFactor * elapsedTime.asSeconds(), 0);
     }
 
     sf::Time spawnDelay = sf::seconds(1.0f / (speedFactor / 50.0f));
@@ -106,6 +119,8 @@ auto GameScene::checkEnteredWord() -> void {
     for (auto it = words.begin(); it != words.end();) {
         if (it->getString() == enteredWord) {
             it = words.erase(it);
+            score += 10;
+            scoreDisplay.setString(std::to_string(score));
             enteredChars.clear();
             break;
         } else {
@@ -126,9 +141,10 @@ auto GameScene::checkWordOffScreen() -> void {
         }
     }
     if (possibleWordsOffScreenCount <=0) {
-        gameEngine.changeScene(std::make_unique<GameOverScene>(gameEngine));
+        gameEngine.changeScene(std::make_unique<GameOverScene>(gameEngine, score));
     }
 }
+
 
 auto GameScene::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     for (const auto& word : words) {
@@ -140,6 +156,9 @@ auto GameScene::draw(sf::RenderTarget& target, sf::RenderStates states) const ->
 
         target.draw(livesLeftDisplay, states);
         target.draw(livesLeftDisplayTitle, states);
+
+        target.draw(scoreDisplay, states);
+        target.draw(scoreDisplayTitle, states);
     }
 }
 

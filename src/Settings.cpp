@@ -4,26 +4,59 @@
 
 #include "../headers/Settings.h"
 #include <fstream>
-#include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
 
 Settings::Settings() {
-    font.loadFromFile("assets/fonts/arial.ttf");
+    sf::Font arial, times, calibri;
+    arial.loadFromFile("../assets/fonts/arial.ttf");
+    times.loadFromFile("../assets/fonts/timesNewRoman.ttf");
+    calibri.loadFromFile("../assets/fonts/calibri.ttf");
+
+    fonts.clear();
+
+    fonts.insert(std::pair<std::string, sf::Font>("Arial", arial));
+    fonts.insert(std::pair<std::string, sf::Font>("Calibri", calibri));
+    fonts.insert(std::pair<std::string, sf::Font>("Times New Roman", times));
+
+    currentFontName = "Arial";
+    font = fonts[currentFontName];
+
 }
 
-auto Settings::loadFromFile(const std::string& filename) -> void {
-
-}
-
-auto Settings::saveToFile(const std::string& filename) const -> void {
-
-}
-
-auto Settings::getFont() -> sf::Font&{
+auto Settings::getFont() -> sf::Font& {
     return font;
+}
+auto Settings::getFonts() -> std::map<std::string, sf::Font> {
+    return fonts;
 }
 
 auto Settings::setFont(const sf::Font& newFont) -> void {
+    font = newFont;
+}
 
+auto Settings::getIteratorByFontName(const std::string& name) -> std::map<std::string, sf::Font>::iterator {
+    return fonts.find(name);
+}
+
+auto Settings::getFontByName(const std::string& name) -> sf::Font& {
+    auto it = fonts.find(name);
+    if (it != fonts.end()) {
+        return it->second;
+    }
+    throw std::runtime_error("Font not found: " + name);
+}
+auto Settings::setCurrentFontName(const std::string& fontName) -> void {
+    currentFontName = fontName;
+}
+
+auto Settings::getFontNames() const -> std::vector<std::string> {
+    std::vector<std::string> names;
+    for (const auto& pair : fonts) {
+        names.push_back(pair.first);
+    }
+    return names;
+}
+
+auto Settings::getCurrentFontName() const -> std::string {
+    return currentFontName;
 }

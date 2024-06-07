@@ -12,7 +12,7 @@
 
 class TitleScene : public Scene {
 public:
-    TitleScene(GameEngine& engine);
+    TitleScene(GameEngine& engine, Settings& settings);
     virtual ~TitleScene();
 
     auto onUpdate(sf::Time elapsedTime) -> void override;
@@ -26,8 +26,10 @@ private:
 
     sf::Text titleText;
     sf::Text startGameText;
+
     sf::Font font;
     sf::Font buttonFont;
+
 
     sf::RectangleShape menuBackground;
 
@@ -37,8 +39,17 @@ private:
     sf::Text speedText;
     WordSpeed wordSpeed;
 
+    sf::Text fontText;
+
+    Button nextFontButton;
+    Button prevFontButton;
+
+    //wSettings settings;
+
 
     auto updateTextSpeed() -> void;
+    auto updateTextFont() -> void;
+
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;
 };
 

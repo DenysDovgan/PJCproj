@@ -9,10 +9,11 @@
 #include <SFML/Graphics.hpp>
 
 class GameEngine;
+class Settings;
 
 class Scene : public sf::Drawable {
 public:
-    Scene(GameEngine& engine);
+    Scene(GameEngine& engine, Settings& settings);
     virtual ~Scene();
 
     virtual auto onUpdate(sf::Time elapsedTime) -> void = 0;
@@ -20,6 +21,7 @@ public:
 
 protected:
     GameEngine& gameEngine;
+    Settings& settings;
 };
 
 

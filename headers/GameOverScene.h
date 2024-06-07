@@ -11,7 +11,7 @@
 
 class GameOverScene : public Scene {
 public:
-    GameOverScene(GameEngine& engine);
+    GameOverScene(GameEngine& engine, int finalScore);
     virtual ~GameOverScene();
 
     auto onUpdate(sf::Time elapsedTime) -> void override;
@@ -19,7 +19,7 @@ public:
 
 private:
     sf::Font font;
-    sf::Font buttonFont;
+    sf::Font arialFont;
 
     sf::Texture gameOverBackgroundTexture;
     sf::Sprite gameOverBackgroundImage;
@@ -28,6 +28,8 @@ private:
     Button exitGameButton;
 
     sf::Text gameOverText;
+
+    sf::Text scoreDisplay;
 
     sf::RectangleShape gameOverMenuBackground;
 

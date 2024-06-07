@@ -5,8 +5,9 @@
 #include "../headers/GameOverScene.h"
 #include "../headers/GameEngine.h"
 #include "../headers/TitleScene.h"
+#include "../headers/GameScene.h"
 
-GameOverScene::GameOverScene(GameEngine& engine) : Scene(engine) {
+GameOverScene::GameOverScene(GameEngine& engine, int finalScore) : Scene(engine, settings) {
     gameOverBackgroundTexture.loadFromFile("../assets/images/monkiGameOverBg.jpg");
     gameOverBackgroundImage.setTexture(gameOverBackgroundTexture);
     gameOverBackgroundImage.setScale(sf::Vector2f(1, 1));
@@ -24,13 +25,21 @@ GameOverScene::GameOverScene(GameEngine& engine) : Scene(engine) {
     gameOverText.setCharacterSize(52);
     gameOverText.setFillColor(sf::Color::White);
     gameOverText.setPosition(sf::Vector2f(
-                gameOverMenuBackground.getPosition().x + (gameOverMenuBackground.getSize().x / 2) - (gameOverText.getLocalBounds().width / 2),
+                gameOverMenuBackground.getPosition().x + gameOverMenuBackground.getSize().x / 2 - gameOverText.getLocalBounds().width / 2,
                 gameOverMenuBackground.getPosition().y + 30
             ));
 
-    buttonFont.loadFromFile("../assets/fonts/arial.ttf");
+    arialFont.loadFromFile("../assets/fonts/arial.ttf");
 
-    exitGameButton.setFont(buttonFont);
+    scoreDisplay.setFont(font);
+    scoreDisplay.setCharacterSize(52);
+    scoreDisplay.setString("Score: " + std::to_string(finalScore));
+    scoreDisplay.setPosition(sf::Vector2f(
+            gameOverMenuBackground.getPosition().x + gameOverMenuBackground.getSize().x/2 - scoreDisplay.getLocalBounds().width/2,
+            gameOverMenuBackground.getPosition().y + gameOverText.getLocalBounds().height + 60
+            ));
+
+    exitGameButton.setFont(arialFont);
     exitGameButton.setCharacterSize(24);
     exitGameButton.setString("Exit Game");
     exitGameButton.setPosition(sf::Vector2f(
@@ -38,7 +47,7 @@ GameOverScene::GameOverScene(GameEngine& engine) : Scene(engine) {
             gameOverMenuBackground.getPosition().y + gameOverMenuBackground.getSize().y - exitGameButton.getSize().y - 30
             ));
 
-    returnToTitleButton.setFont(buttonFont);
+    returnToTitleButton.setFont(arialFont);
     returnToTitleButton.setCharacterSize(24);
     returnToTitleButton.setString("Return to Title");
     returnToTitleButton.setPosition(sf::Vector2f(
@@ -61,14 +70,19 @@ auto GameOverScene::handleEvent(const sf::Event& event) -> void {
         gameEngine.getWindow().close();
     }
     if (returnToTitleButton.isClicked()) {
-        gameEngine.changeScene(std::make_unique<TitleScene>(gameEngine));
+        gameEngine.changeScene(std::make_unique<TitleScene>(gameEngine, gameEngine.getSettings()));
     }
 }
+
 
 auto GameOverScene::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     target.draw(gameOverBackgroundImage, states);
     target.draw(gameOverMenuBackground, states);
+
     target.draw(gameOverText, states);
+
+    target.draw(scoreDisplay, states);
+
     target.draw(exitGameButton, states);
     target.draw(returnToTitleButton, states);
 }

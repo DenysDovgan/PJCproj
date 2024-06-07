@@ -4,6 +4,6 @@
 
 #include "../headers/Scene.h"
 
-Scene::Scene(GameEngine& engine) : gameEngine(engine) {}
+Scene::Scene(GameEngine& engine, Settings& settings) : gameEngine(engine), settings(settings) {}
 
 Scene::~Scene() {}
