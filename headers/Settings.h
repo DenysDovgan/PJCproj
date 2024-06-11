@@ -31,8 +31,8 @@ public:
     sf::Font& getFont();
     auto setFont(const sf::Font& font) -> void;
 
-    auto getIteratorByFontName(const std::string& name) -> std::map<std::string, sf::Font>::iterator;
-    auto getFonts() -> std::map<std::string, sf::Font>;
+    auto getPlaceInVectorByFontName(const std::string& name) -> int;
+    auto getFonts() -> std::vector<sf::Font>;
     auto getFontByName(const std::string& name) -> sf::Font&;
     auto getFontNames() const -> std::vector<std::string>;
     auto getCurrentFontName() const -> std::string;
@@ -40,7 +40,9 @@ public:
 
 
 private:
-    std::map<std::string, sf::Font> fonts;
+    //std::map<std::string, sf::Font> fonts;
+    std::vector<sf::Font> fonts;
+    std::vector<std::string> fontsName;
     sf::Font font;
     std::string currentFontName;
 };

@@ -9,7 +9,6 @@
 
 TitleScene::TitleScene(GameEngine& engine, Settings& settings) : Scene(engine, settings) {
 
-
     // Menu buttons background
     menuBackground.setSize(sf::Vector2f(400.f, 600.f));
     menuBackground.setPosition(80, 180);
@@ -108,33 +107,24 @@ auto TitleScene::handleEvent(const sf::Event& event) -> void {
         updateTextSpeed();
     }
 
-    auto fontIter = settings.getIteratorByFontName(settings.getCurrentFontName());
-    auto fontsEnd = settings.getFonts().end();
 
     if (nextFontButton.isClicked()) {
-        auto nextFontIter = std::next(fontIter);
-        if (nextFontIter != fontsEnd) {
-            settings.setCurrentFontName(nextFontIter->first);
-            settings.setFont(nextFontIter->second);
-            updateTextFont();
-            std::cout << "Next font: " << nextFontIter->first << std::endl;
-        } else {
-            std::cout << "Reached the end of the font list." << std::endl;
+        auto fontPosInVec = settings.getPlaceInVectorByFontName(settings.getCurrentFontName());
+        auto fontNames = settings.getFontNames();
+        if (fontPosInVec+1 != fontNames.size()){
+            settings.setCurrentFontName(settings.getFontNames().at(fontPosInVec + 1));
+            settings.setFont(settings.getFonts().at(fontPosInVec+1));
+            fontText.setString("Font: " + settings.getCurrentFontName());
         }
     }
 
     if (prevFontButton.isClicked()) {
-        auto fontIter = settings.getIteratorByFontName(settings.getCurrentFontName());
-
-
-
-        if (fontIter != settings.getFonts().begin()) {
-            --fontIter;
-            settings.setCurrentFontName(fontIter->first);
-            settings.setFont(fontIter->second);
-            updateTextFont();
-        } else if (fontIter == settings.getFonts().begin()) {
-            std::cout << "Reached the beginning of the font list." << std::endl;
+        auto fontPosInVec = settings.getPlaceInVectorByFontName(settings.getCurrentFontName());
+        auto fontNames = settings.getFontNames();
+        if (fontPosInVec-1 != -1){
+            settings.setCurrentFontName(settings.getFontNames().at(fontPosInVec - 1));
+            settings.setFont(settings.getFonts().at(fontPosInVec - 1));
+            fontText.setString("Font: " + settings.getCurrentFontName());
         }
     }
 }
