@@ -9,8 +9,8 @@
 #include <fstream>
 #include <utility>
 
-GameScene::GameScene(GameEngine& engine, WordSpeed speed, std::string  fileLoc, const sf::Font& font)
-                    : Scene(engine, settings), wordSpeed(speed), textFileLocation(std::move(fileLoc)), font(font) {
+GameScene::GameScene(GameEngine& engine, WordSpeed speed, WordSize size, std::string  fileLoc, const sf::Font& font)
+                    : Scene(engine, settings), wordSpeed(speed), wordSize(size), textFileLocation(std::move(fileLoc)), font(font) {
 
     possibleWordsOffScreenCount = 9;
 
@@ -92,21 +92,25 @@ auto GameScene::loadRandomWordFromFile() -> void {
 
 
 auto GameScene::spawnWord(const std::string& word) -> void {
-    sf::Text newWord(word, font, 24);
+    sf::Text newWord(word, font, static_cast<int>(wordSize));
+    int textHeight = newWord.getLocalBounds().height;
     newWord.setPosition(sf::Vector2f(-newWord.getLocalBounds().width,
-                                     static_cast<float>(rand() % (gameEngine.getWindow().getSize().y - 50) + 50  )));
+                                     static_cast<float>(50 + (rand() % ((gameEngine.getWindow().getSize().y - 50) / textHeight + 1)) * textHeight)));
     words.emplace_back(newWord);
 }
 
 auto GameScene::updateWordPositions(sf::Time elapsedTime) -> void {
-    auto speedFactor = static_cast<float>(wordSpeed);
+    int spawnFactor = static_cast<float>(wordSpeed);
+    if (wordSize == WordSize::BIG) {
+        spawnFactor /= 1.5f;
+    }
     lastWordSpawn += elapsedTime;
 
     for (auto &word : words) {
-        word.move(speedFactor * elapsedTime.asSeconds(), 0);
+        word.move(static_cast<float>(wordSpeed) * elapsedTime.asSeconds(), 0);
     }
 
-    sf::Time spawnDelay = sf::seconds(1.0f / (speedFactor / 50.0f));
+    sf::Time spawnDelay = sf::seconds(1.0f / (spawnFactor / 50.0f));
     if (lastWordSpawn >= spawnDelay) {
         lastWordSpawn = sf::Time::Zero;
 
@@ -118,8 +122,9 @@ auto GameScene::checkEnteredWord() -> void {
 
     for (auto it = words.begin(); it != words.end();) {
         if (it->getString() == enteredWord) {
+            int scoreFactor = enteredWord.size() * (static_cast<int>(wordSpeed) / 50);
             it = words.erase(it);
-            score += 10;
+            score += scoreFactor;
             scoreDisplay.setString(std::to_string(score));
             enteredChars.clear();
             break;
@@ -149,17 +154,17 @@ auto GameScene::checkWordOffScreen() -> void {
 auto GameScene::draw(sf::RenderTarget& target, sf::RenderStates states) const -> void {
     for (const auto& word : words) {
         target.draw(word, states);
-        target.draw(gameSceneMenuBackground, states);
-
-        target.draw(enteredCharsDisplayTitle, states);
-        target.draw(enteredCharsDisplay, states);
-
-        target.draw(livesLeftDisplay, states);
-        target.draw(livesLeftDisplayTitle, states);
-
-        target.draw(scoreDisplay, states);
-        target.draw(scoreDisplayTitle, states);
     }
+    target.draw(gameSceneMenuBackground, states);
+
+    target.draw(enteredCharsDisplayTitle, states);
+    target.draw(enteredCharsDisplay, states);
+
+    target.draw(livesLeftDisplay, states);
+    target.draw(livesLeftDisplayTitle, states);
+
+    target.draw(scoreDisplay, states);
+    target.draw(scoreDisplayTitle, states);
 }
 
 

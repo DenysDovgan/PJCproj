@@ -33,21 +33,29 @@ private:
 
     sf::RectangleShape menuBackground;
 
+    // Word speed
     Button increaseSpeedButton;
     Button decreaseSpeedButton;
 
-    sf::Text speedText;
+    sf::Text wordSpeedText;
     WordSpeed wordSpeed;
 
-    sf::Text fontText;
+    // Word size
+    Button nextWordSizeButton;
+    Button prevWordSizeButton;
+
+    sf::Text wordSizeText;
+    WordSize wordSize;
+
+    // Word font
+    sf::Text wordFontText;
 
     Button nextFontButton;
     Button prevFontButton;
 
-    //wSettings settings;
-
 
     auto updateTextSpeed() -> void;
+    auto updateTextSize() -> void;
     auto updateTextFont() -> void;
 
     auto draw(sf::RenderTarget& target, sf::RenderStates states) const -> void override;

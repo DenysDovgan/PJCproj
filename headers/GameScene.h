@@ -12,7 +12,7 @@
 
 class GameScene : public Scene {
 public:
-    GameScene(GameEngine& engine, WordSpeed speed, std::string  fileLoc, const sf::Font&);
+    GameScene(GameEngine& engine, WordSpeed speed, WordSize size, std::string  fileLoc, const sf::Font& font);
     virtual ~GameScene();
 
     auto onUpdate(sf::Time elapsedTime) -> void override;
@@ -25,6 +25,8 @@ private:
     int score;
 
     WordSpeed wordSpeed;
+    WordSize wordSize;
+
     sf::Time lastWordSpawn;
     std::vector<sf::Text> words;
 

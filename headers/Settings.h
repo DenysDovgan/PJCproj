@@ -19,20 +19,22 @@ enum class WordSpeed {
     FAST = 150,
     IMPOSSIBLE = 200
 };
+enum class WordSize {
+    SMALL = 12,
+    MEDIUM = 24,
+    BIG = 36
+};
 
 
 class Settings {
 public:
     Settings();
-    //auto loadFromFile(const std::string& filename) -> void;
-    //auto saveToFile(const std::string& filename) const -> void;
 
-    // Getters and setters for various settings
-    sf::Font& getFont();
     auto setFont(const sf::Font& font) -> void;
 
     auto getPlaceInVectorByFontName(const std::string& name) -> int;
     auto getFonts() -> std::vector<sf::Font>;
+    auto getFont() -> sf::Font&;
     auto getFontByName(const std::string& name) -> sf::Font&;
     auto getFontNames() const -> std::vector<std::string>;
     auto getCurrentFontName() const -> std::string;
@@ -40,7 +42,6 @@ public:
 
 
 private:
-    //std::map<std::string, sf::Font> fonts;
     std::vector<sf::Font> fonts;
     std::vector<std::string> fontsName;
     sf::Font font;

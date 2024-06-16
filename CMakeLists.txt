@@ -17,13 +17,8 @@ FetchContent_Declare(
         GIT_REPOSITORY  https://github.com/fmtlib/fmt
         GIT_TAG         10.2.1
 )
-FetchContent_Declare(
-        json
-        GIT_REPOSITORY  https://github.com/nlohmann/json
-        GIT_TAG         v3.11.3
-)
 
-FetchContent_MakeAvailable(SFML fmt json)
+FetchContent_MakeAvailable(SFML fmt)
 
 add_executable(
         PJCproj
@@ -46,4 +41,4 @@ add_executable(
         headers/Button.h
 )
 
-target_link_libraries(PJCproj sfml-graphics fmt nlohmann_json::nlohmann_json)
+target_link_libraries(PJCproj sfml-graphics fmt)
